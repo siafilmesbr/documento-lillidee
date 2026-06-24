@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Central de Documentação — Lillidee Eventos</title>
+<style>
+  :root{
+    --pink:#E8366A;
+    --pink-soft:#fce4ec;
+    --choc:#3D1F0D;
+    --cream:#F5EDD8;
+    --black:#1A0A00;
+    --ok:#2e7d32;
+    --ok-bg:#e7f4e8;
+    --warn:#b26a00;
+    --warn-bg:#fdf0dd;
+    --bad:#c62828;
+    --bad-bg:#fbe6e6;
+    --gray:#8a7d72;
+    --line:#e6dcc8;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--cream);
+    color:var(--black);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    padding:0 0 60px;
+  }
+  .wrap{max-width:980px;margin:0 auto;padding:0 20px}
+
+  /* Header */
+  header{
+    background:var(--choc);
+    color:var(--cream);
+    padding:30px 0 26px;
+    margin-bottom:24px;
+  }
+  header .wrap{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+  .brand{font-family:"Great Vibes",cursive;font-size:42px;line-height:1;color:#fff}
+  .brand span{font-family:inherit;color:var(--pink)}
+  .sub{font-size:13px;letter-spacing:.04em;text-transform:uppercase;color:#d8c9b6;margin-top:4px}
+  .today{font-size:13px;color:#d8c9b6;text-align:right}
+  .today b{color:#fff;display:block;font-size:15px}
+
+  /* Tabs */
+  .tabs{display:flex;gap:6px;border-bottom:2px solid var(--line);margin-bottom:24px;flex-wrap:wrap}
+  .tab{
+    background:none;border:none;cursor:pointer;font-size:15px;font-weight:600;
+    color:var(--gray);padding:12px 18px;border-bottom:3px solid transparent;
+    margin-bottom:-2px;transition:.15s;font-family:inherit;
+  }
+  .tab:hover{color:var(--choc)}
+  .tab.active{color:var(--pink);border-bottom-color:var(--pink)}
+  .panel{display:none}
+  .panel.active{display:block;animation:fade .25s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+  /* Alert banner */
+  .alert{
+    background:var(--bad-bg);border:1px solid #f0bcbc;border-left:4px solid var(--bad);
+    border-radius:8px;padding:14px 16px;margin-bottom:22px;font-size:14px;color:#7a1f1f;
+  }
+  .alert b{color:var(--bad)}
+  .alert.warn{background:var(--warn-bg);border-color:#eccf9e;border-left-color:var(--warn);color:#7a4d00}
+  .alert.warn b{color:var(--warn)}
+
+  /* Cards / data */
+  h2{font-size:15px;text-transform:uppercase;letter-spacing:.06em;color:var(--choc);margin:30px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--line)}
+  h2:first-child{margin-top:0}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
+  .field{
+    background:#fff;border:1px solid var(--line);border-radius:8px;padding:11px 14px;
+    display:flex;justify-content:space-between;align-items:center;gap:10px;
+  }
+  .field .lbl{font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--gray)}
+  .field .val{font-size:15px;font-weight:600;color:var(--black);font-variant-numeric:tabular-nums}
+  .field .txt{flex:1;min-width:0}
+  .copy{
+    background:var(--pink-soft);border:none;color:var(--pink);cursor:pointer;
+    border-radius:6px;padding:6px 9px;font-size:12px;font-weight:600;white-space:nowrap;
+    transition:.15s;font-family:inherit;flex-shrink:0;
+  }
+  .copy:hover{background:var(--pink);color:#fff}
+  .copy.done{background:var(--ok);color:#fff}
+
+  .entity{margin-bottom:24px}
+  .entity-name{font-size:14px;font-weight:700;color:var(--pink);margin-bottom:4px}
+  .entity-cnpj{font-size:12px;color:var(--gray);margin-bottom:12px}
+
+  /* Checklist */
+  .doc{
+    background:#fff;border:1px solid var(--line);border-radius:8px;padding:14px 16px;
+    margin-bottom:8px;display:flex;align-items:flex-start;gap:13px;
+  }
+  .doc .dot{width:11px;height:11px;border-radius:50%;margin-top:5px;flex-shrink:0}
+  .dot.ok{background:var(--ok)}.dot.warn{background:var(--warn)}.dot.bad{background:var(--bad)}.dot.na{background:var(--gray)}
+  .doc .body{flex:1;min-width:0}
+  .doc .name{font-weight:600;font-size:15px}
+  .doc .meta{font-size:13px;color:var(--gray);margin-top:2px}
+  .doc .meta.has{color:var(--ok)}
+  .badge{font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;text-transform:uppercase;letter-spacing:.03em;white-space:nowrap;flex-shrink:0;margin-top:2px}
+  .badge.ok{background:var(--ok-bg);color:var(--ok)}
+  .badge.warn{background:var(--warn-bg);color:var(--warn)}
+  .badge.bad{background:var(--bad-bg);color:var(--bad)}
+  .badge.na{background:#efe9e0;color:var(--gray)}
+
+  .progress-wrap{background:#fff;border:1px solid var(--line);border-radius:8px;padding:16px;margin-bottom:20px}
+  .progress-top{display:flex;justify-content:space-between;font-size:14px;margin-bottom:8px}
+  .progress-top b{color:var(--choc)}
+  .bar{height:9px;background:var(--line);border-radius:20px;overflow:hidden}
+  .bar > i{display:block;height:100%;background:var(--pink);border-radius:20px;transition:width .4s}
+
+  /* Timeline / validades */
+  .valrow{
+    background:#fff;border:1px solid var(--line);border-radius:8px;padding:13px 16px;
+    margin-bottom:8px;display:flex;align-items:center;gap:14px;
+  }
+  .valrow .when{font-variant-numeric:tabular-nums;font-weight:700;font-size:15px;width:92px;flex-shrink:0}
+  .valrow .doc-name{flex:1;font-size:14px}
+  .valrow .doc-name small{display:block;color:var(--gray);font-size:12px}
+  .valrow .days{font-size:13px;font-weight:600;white-space:nowrap}
+  .days.ok{color:var(--ok)}.days.warn{color:var(--warn)}.days.bad{color:var(--bad)}
+  .leftborder{border-left:4px solid}
+  .lb-ok{border-left-color:var(--ok)}.lb-warn{border-left-color:var(--warn)}.lb-bad{border-left-color:var(--bad)}
+
+  footer{text-align:center;font-size:12px;color:var(--gray);margin-top:36px}
+
+  /* counts row under progress */
+  .counts{display:flex;gap:18px;margin-top:12px;font-size:13px;color:var(--gray);flex-wrap:wrap}
+  .counts b{color:var(--black)}
+  .cdot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:middle}
+  .cdot.ok{background:var(--ok)}.cdot.warn{background:var(--warn)}.cdot.bad{background:var(--bad)}
+
+  /* team cards */
+  .tcard{background:#fff;border:1px solid var(--line);border-radius:10px;padding:16px;margin-bottom:12px}
+  .tname{font-weight:700;font-size:16px;color:var(--choc);margin-bottom:12px}
+  .tname small{display:block;font-weight:400;font-size:12px;color:var(--gray);text-transform:uppercase;letter-spacing:.03em;margin-top:2px}
+  .tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .tcell{border:1px solid var(--line);border-radius:8px;padding:10px 12px;border-left:3px solid}
+  .tcell.ok{border-left-color:var(--ok);background:var(--ok-bg)}
+  .tcell.warn{border-left-color:var(--warn);background:var(--warn-bg)}
+  .tcell.bad{border-left-color:var(--bad);background:var(--bad-bg)}
+  .tcell-top{display:flex;align-items:center;gap:7px;margin-bottom:4px}
+  .tic{width:18px;height:18px;border-radius:50%;color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .tcell.ok .tic{background:var(--ok)}.tcell.warn .tic{background:var(--warn)}.tcell.bad .tic{background:var(--bad)}
+  .tlbl{font-weight:600;font-size:13px}
+  .tsrc{font-size:11px;color:var(--gray);line-height:1.4}
+
+  @media (max-width:560px){
+    .brand{font-size:34px}
+    .today{text-align:left}
+    .grid{grid-template-columns:1fr}
+    .tgrid{grid-template-columns:1fr}
+  }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div>
+      <div class="brand">Lillidee<span>.</span></div>
+      <div class="sub">Central de Documentação · Eventos</div>
+    </div>
+    <div class="today">
+      Atualizado em
+      <b id="todayDate">—</b>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="tabs">
+    <button class="tab active" data-tab="checklist">Checklist do Evento</button>
+    <button class="tab" data-tab="equipe">Equipe</button>
+    <button class="tab" data-tab="validades">Validades</button>
+    <button class="tab" data-tab="ficha">Ficha de Dados</button>
+  </div>
+
+  <!-- ============ CHECKLIST ============ -->
+  <div class="panel active" id="checklist">
+
+    <div class="progress-wrap">
+      <div class="progress-top">
+        <span>Prontidão para o evento</span>
+        <b><span id="readyCount">0</span> de <span id="totalCount">0</span> aplicáveis</b>
+      </div>
+      <div class="bar"><i id="progressBar" style="width:0%"></i></div>
+      <div class="counts">
+        <span><i class="cdot ok"></i><b id="okCount">0</b> prontos</span>
+        <span><i class="cdot warn"></i><b id="warnCount">0</b> atenção</span>
+        <span><i class="cdot bad"></i><b id="badCount">0</b> faltando</span>
+      </div>
+    </div>
+
+    <p style="font-size:13px;color:var(--gray);margin-bottom:18px">
+      Baseado no checklist obrigatório CheckNutri. Verde = pronto · Amarelo = vence em breve · Vermelho = falta ou vencido.
+    </p>
+
+    <div id="checklistList"></div>
+  </div>
+
+  <!-- ============ EQUIPE ============ -->
+  <div class="panel" id="equipe">
+    <p style="font-size:13px;color:var(--gray);margin-bottom:18px">
+      Documentação exigida por colaborador que trabalha no evento: ASO + exames (semestral) e capacitação em Boas Práticas.
+    </p>
+    <div id="teamList"></div>
+    <p style="font-size:12px;color:var(--gray);margin-top:14px;line-height:1.5">
+      Validade do ASO considerada semestral conforme exigência do evento. ASOs de freelancer/avulso (Luciene e Marcelo) não estão sob o CNPJ da Lillidee — aceitos pela maioria dos organizadores, mas confirme se o seu exige ASO vinculado ao CNPJ.
+    </p>
+  </div>
+
+  <!-- ============ VALIDADES ============ -->
+  <div class="panel" id="validades">
+    <div class="alert"><b>Vencido:</b> Certificado de Regularidade IBAMA (Ambientaloli) — expirou em 07/04/2026. Pedir renovação à coletora de óleo.</div>
+    <div class="alert warn"><b>Atenção:</b> ASO da Amanda vence em 16/07/2026 e o laudo de dedetização em 12/08/2026. Programar renovação dos dois.</div>
+    <h2>Ordenado por vencimento</h2>
+    <div id="validadesList"></div>
+  </div>
+
+  <!-- ============ FICHA ============ -->
+  <div class="panel" id="ficha">
+
+    <div class="entity">
+      <div class="entity-name">LLD Eventos LTDA — Lillidee Churros &amp; Doces</div>
+      <div class="entity-cnpj">Sua empresa principal · Sócio-Adm. Renan Fabiano Montes</div>
+      <div class="grid">
+        <div class="field"><div class="txt"><div class="lbl">CNPJ</div><div class="val">44.914.165/0001-44</div></div><button class="copy" data-copy="44.914.165/0001-44">Copiar</button></div>
+        <div class="field"><div class="txt"><div class="lbl">NIRE</div><div class="val">35238426962</div></div><button class="copy" data-copy="35238426962">Copiar</button></div>
+        <div class="field"><div class="txt"><div class="lbl">Razão social</div><div class="val" style="font-size:13px">LLD EVENTOS LTDA</div></div><button class="copy" data-copy="LLD EVENTOS LTDA">Copiar</button></div>
+        <div class="field"><div class="txt"><div class="lbl">Nome fantasia</div><div class="val" style="font-size:13px">LILLIDEE CHURROS &amp; DOCES</div></div><button class="copy" data-copy="LILLIDEE CHURROS & DOCES">Copiar</button></div>
+        <div class="field"><div class="txt"><div class="lbl">Natureza jurídica</div><div class="val" style="font-size:13px">Soc. Empresária Ltda (ME)</div></div><button class="copy" data-copy="Sociedade Empresária Limitada">Copiar</button></div>
+        <div class="field"><div class="txt"><div class="lbl">Abertura</div><div class="val">18/01/2022</div></div><button class="copy" data-copy="18/01/2022">Copiar</button></div>
+        <div class="field"><div class="txt"><div class="lbl">Endereço sede</div><div class="val" style="font-size:12px">Av. Getúlio Vargas, 600 — Baeta Neves, SBC/SP · 09751-250</div></div><button class="copy" data-copy="Av. Getúlio Vargas, 600 - Baeta Neves, São Bernardo do Campo - SP, CEP 09751-250">Copiar</button></div>
+        <div class="field"><div class="txt"><div class="lbl">CNAE principal</div><div class="val" style="font-size:13px">5611-2/01 Restaurantes</div></div><button class="copy" data-copy="5611-2/01">Copiar</button></div>
+      </div>
+      <h2 style="font-size:13px;border:none;margin:14px 0 8px;color:var(--gray)">Licenciamento Integrado (CLI / VRE)</h2>
+      <div class="grid">
+        <div class="field"><div class="txt"><div class="lbl">Protocolo CLI</div><div class="val">SPP2230061360</div></div><button class="copy" data-copy="SPP2230061360">Copiar</button></div>
+        <div class="field"><div class="txt"><div class="lbl">Nº solicitação</div><div class="val">4779703</div></div><button class="copy" data-copy="4779703">Copiar</button></div>
+        <div class="field"><div class="txt"><div class="lbl">Validade CLI</div><div class="val">04/11/2026</div></div><button class="copy" data-copy="04/11/2026">Copiar</button></div>
+        <div class="field"><div class="txt"><div class="lbl">AVCB edificação</div><div class="val">0000745849 · val. 06/01/2028</div></div><button class="copy" data-copy="AVCB 0000745849">Copiar</button></div>
+      </div>
+    </div>
+
+    <div class="entity">
+      <div class="entity-name">AMBIENTALOLI Comércio e Transporte de Óleo Vegetal LTDA</div>
+      <div class="entity-cnpj">Coletora de óleo terceirizada</div>
+      <div class="grid">
+        <div class="field"><div class="txt"><div class="lbl">CNPJ</div><div class="val">51.539.083/0001-22</div></div><button class="copy" data-copy="51.539.083/0001-22">Copiar</button></div>
+        <div class="field"><div class="txt"><div class="lbl">Alvará Osasco</div><div class="val">Insc. 0000177236</div></div><button class="copy" data-copy="0000177236">Copiar</button></div>
+        <div class="field"><div class="txt"><div class="lbl">CLCB Bombeiros</div><div class="val">1081370 · val. 09/10/2026</div></div><button class="copy" data-copy="1081370">Copiar</button></div>
+        <div class="field"><div class="txt"><div class="lbl">CETESB isenção</div><div class="val">36014087</div></div><button class="copy" data-copy="36014087">Copiar</button></div>
+        <div class="field"><div class="txt"><div class="lbl">IBAMA CR</div><div class="val" style="color:var(--bad)">8519230 · venc. 07/04/2026</div></div><button class="copy" data-copy="8519230">Copiar</button></div>
+        <div class="field"><div class="txt"><div class="lbl">Endereço</div><div class="val" style="font-size:12px">R. Piacatu, 15 — Munhoz Jr., Osasco/SP</div></div><button class="copy" data-copy="Rua Piacatu, 15 - Munhoz Junior, Osasco - SP, CEP 06240-160">Copiar</button></div>
+      </div>
+    </div>
+
+    <div class="entity">
+      <div class="entity-name">Lillidee Brigadeira &amp; Delicatessen</div>
+      <div class="entity-cnpj">Estabelecimento da dedetização · confirmado OK</div>
+      <div class="grid">
+        <div class="field"><div class="txt"><div class="lbl">CNPJ</div><div class="val">27.433.610/0001-35</div></div><button class="copy" data-copy="27.433.610/0001-35">Copiar</button></div>
+        <div class="field"><div class="txt"><div class="lbl">Veículo (food truck)</div><div class="val" style="font-size:13px">Lifan Foison 2016 · FAR-6671</div></div><button class="copy" data-copy="Lifan Foison 2016 placa FAR-6671">Copiar</button></div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<footer class="wrap">Central de Documentação Lillidee · gerada para controle interno de eventos</footer>
+
+<script>
+// ---- reference date ----
+const TODAY = new Date(2026, 5, 24); // June 24 2026
+document.getElementById('todayDate').textContent = TODAY.toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'});
+
+// ---- documents data ----
+// status: have = você tem o doc; null expiry = sem validade fixa
+const DOCS = [
+  {name:"Contrato social", have:true, expiry:null, note:"LLD Eventos — registrado JUCESP"},
+  {name:"CNPJ", have:true, expiry:null, note:"Comprovante de inscrição"},
+  {name:"Licença Sanitária / CMVS ou isenção", have:true, expiry:"2026-11-04", note:"Coberto pelo CLI integrado"},
+  {name:"Alvará de funcionamento / protocolo", have:true, expiry:"2026-11-04", note:"Certificado de Licenciamento Integrado"},
+  {name:"Laudo de desinsetização (CIP)", have:true, expiry:"2026-08-12", note:"Adedetizadora — garantia 3 meses"},
+  {name:"Alvará da empresa de CIP", have:false, expiry:null, note:"Pedir à Adedetizadora"},
+  {name:"Relatório de medidas preventivas (CIP)", have:false, expiry:null, note:"Pedir à Adedetizadora"},
+  {name:"Atestado de Saúde Ocupacional (ASO)", have:true, status:"warn", badge:"Verificar equipe", expiry:null, note:"Amanda, Luciene e Marcelo com ASO · Amanda vence 16/07 · ver aba Equipe"},
+  {name:"Exames complementares (copro)", have:true, expiry:null, note:"Coproparasitológico + Coprocultura — inclusos nos ASOs da equipe"},
+  {name:"Laudo prestação coleta de óleo", have:true, expiry:null, note:"Ambientaloli — laudo de serviço OK"},
+  {name:"Certificado Boas Práticas / RT", have:true, expiry:null, note:"Amanda — ENAP 07/2025 (responsável) · ver aba Equipe"},
+  {name:"Treinamento da equipe", have:true, status:"warn", badge:"Incompleto", expiry:null, note:"Falta Boas Práticas do Marcelo · ver aba Equipe"},
+  {name:"Calibração de termômetros", have:true, expiry:"2027-04-07", note:"Moura · cert. 2648-127 · termômetro TI-9029"},
+  {name:"Potabilidade da água / gelo", have:true, na:true, expiry:null, note:"Não aplicável à operação"},
+  {name:"IBAMA — Certif. Regularidade (óleo)", have:true, expiry:"2026-04-07", note:"Ambientaloli — RENOVAR (vencido)"}
+];
+
+function daysBetween(d){ return Math.round((d - TODAY)/(1000*60*60*24)); }
+function parse(s){ const [y,m,dd]=s.split('-').map(Number); return new Date(y,m-1,dd); }
+
+// ---- team data ----
+// aso = validade do ASO; bp = data do certif. Boas Práticas (null = falta)
+const TEAM = [
+  {name:"Amanda Barbosa Ribeiro", role:"Atendente · Responsável", aso:"2026-07-16", asoSrc:"LAPAMEDSEG · APTO · CNPJ Lillidee", exames:true, examesSrc:"Copro + parasitológico (14/01)", bp:"2025-07-17", bpSrc:"ENAP · 12h · nota 98,5"},
+  {name:"Luciene Souza dos Santos", role:"Atendente", aso:"2026-11-06", asoSrc:"BC Work · APTO · ASO de 06/05 (semestral)", exames:true, examesSrc:"Copro + parasitológico (05/2026)", bp:"2024-04-22", bpSrc:"SEBRAE · 20h"},
+  {name:"Marcelo de Oliveira", role:"Atendente", aso:"2026-09-24", asoSrc:"O+Saúde · APTO · ASO de 23/03 (semestral)", exames:true, examesSrc:"Copro + parasitológico (23/03)", bp:null, bpSrc:"Falta — providenciar curso"}
+];
+
+
+// classify each doc
+function classify(doc){
+  if(doc.na) return 'na';                // não aplicável
+  if(doc.status) return doc.status;      // status manual (itens da equipe)
+  if(!doc.have) return 'bad';            // missing
+  if(doc.expiry){
+    const d = daysBetween(parse(doc.expiry));
+    if(d < 0) return 'bad';              // expired
+    if(d <= 60) return 'warn';           // expiring soon
+  }
+  return 'ok';
+}
+
+// ---- render checklist ----
+const list = document.getElementById('checklistList');
+let nOk=0, nWarn=0, nBad=0, applicable=0;
+DOCS.forEach(doc=>{
+  const st = classify(doc);
+  if(st!=='na') applicable++;
+  if(st==='ok') nOk++; else if(st==='warn') nWarn++; else if(st==='bad') nBad++;
+  const labels = {ok:'Pronto', warn:'Vence em breve', bad: doc.have ? 'Vencido' : 'Falta', na:'Não aplicável'};
+  const badge = doc.badge || labels[st];
+  let meta = doc.note;
+  if(doc.expiry){
+    const d = daysBetween(parse(doc.expiry));
+    const dtxt = parse(doc.expiry).toLocaleDateString('pt-BR');
+    meta = doc.note + ' · ' + (d<0 ? 'venceu '+dtxt : 'válido até '+dtxt);
+  }
+  const el = document.createElement('div');
+  el.className = 'doc';
+  el.innerHTML = `
+    <span class="dot ${st}"></span>
+    <div class="body">
+      <div class="name">${doc.name}</div>
+      <div class="meta ${st==='ok'?'has':''}">${meta}</div>
+    </div>
+    <span class="badge ${st}">${badge}</span>`;
+  list.appendChild(el);
+});
+
+// progress
+document.getElementById('readyCount').textContent = nOk + nWarn;
+document.getElementById('totalCount').textContent = applicable;
+document.getElementById('okCount').textContent = nOk;
+document.getElementById('warnCount').textContent = nWarn;
+document.getElementById('badCount').textContent = nBad;
+document.getElementById('progressBar').style.width = Math.round((nOk+nWarn)/applicable*100)+'%';
+
+// ---- render team ----
+const tlist = document.getElementById('teamList');
+function cell(label, ok, src, warnSoon){
+  const st = ok ? (warnSoon?'warn':'ok') : 'bad';
+  const ic = ok ? (warnSoon?'!':'✓') : '✕';
+  return `<div class="tcell ${st}">
+    <div class="tcell-top"><span class="tic">${ic}</span><span class="tlbl">${label}</span></div>
+    <div class="tsrc">${src}</div>
+  </div>`;
+}
+TEAM.forEach(p=>{
+  let asoSoon=false, asoTxt=p.asoSrc;
+  if(p.aso){ const d=daysBetween(parse(p.aso)); asoSoon = d>=0 && d<=60;
+    asoTxt = p.asoSrc + ' · ' + (d<0?'venceu '+parse(p.aso).toLocaleDateString('pt-BR'):'até '+parse(p.aso).toLocaleDateString('pt-BR')); }
+  const card = document.createElement('div');
+  card.className = 'tcard';
+  card.innerHTML = `
+    <div class="tname">${p.name}<small>${p.role}</small></div>
+    <div class="tgrid">
+      ${cell('ASO', !!p.aso && daysBetween(parse(p.aso))>=0, asoTxt, asoSoon)}
+      ${cell('Exames (copro)', p.exames, p.examesSrc, false)}
+      ${cell('Boas Práticas', !!p.bp, p.bpSrc, false)}
+    </div>`;
+  tlist.appendChild(card);
+});
+
+// ---- render validades (docs com validade + ASOs da equipe) ----
+const vlist = document.getElementById('validadesList');
+const valItems = [];
+DOCS.filter(d=>d.expiry).forEach(d=>valItems.push({when:d.expiry, name:d.name, note:d.note}));
+TEAM.filter(p=>p.aso).forEach(p=>valItems.push({when:p.aso, name:'ASO — '+p.name.split(' ').slice(0,2).join(' '), note:p.asoSrc}));
+valItems
+  .sort((a,b)=>parse(a.when)-parse(b.when))
+  .forEach(item=>{
+    const d = daysBetween(parse(item.when));
+    const st = d<0 ? 'bad' : (d<=60 ? 'warn' : 'ok');
+    const dtxt = d<0 ? `vencido há ${Math.abs(d)} dias` : `faltam ${d} dias`;
+    const el = document.createElement('div');
+    el.className = `valrow leftborder lb-${st}`;
+    el.innerHTML = `
+      <div class="when">${parse(item.when).toLocaleDateString('pt-BR')}</div>
+      <div class="doc-name">${item.name}<small>${item.note}</small></div>
+      <div class="days ${st}">${dtxt}</div>`;
+    vlist.appendChild(el);
+  });
+
+// ---- tabs ----
+document.querySelectorAll('.tab').forEach(t=>{
+  t.addEventListener('click', ()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById(t.dataset.tab).classList.add('active');
+  });
+});
+
+// ---- copy buttons ----
+document.querySelectorAll('.copy').forEach(b=>{
+  b.addEventListener('click', ()=>{
+    const txt = b.dataset.copy;
+    navigator.clipboard.writeText(txt).then(()=>{
+      const orig = b.textContent;
+      b.textContent = 'Copiado ✓';
+      b.classList.add('done');
+      setTimeout(()=>{ b.textContent = orig; b.classList.remove('done'); }, 1400);
+    });
+  });
+});
+</script>
+</body>
+</html>
