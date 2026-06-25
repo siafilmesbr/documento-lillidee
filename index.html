@@ -220,7 +220,7 @@
   <!-- ============ VALIDADES ============ -->
   <div class="panel" id="validades">
     <div class="alert"><b>Vencido:</b> Certificado de Regularidade IBAMA (Ambientaloli) — expirou em 07/04/2026. Pedir renovação à coletora de óleo.</div>
-    <div class="alert warn"><b>Atenção:</b> ASO da Amanda vence em 16/07/2026 e o laudo de dedetização em 12/08/2026. Programar renovação dos dois.</div>
+    <div class="alert warn"><b>Atenção:</b> ASO da Amanda vence em 16/07/2026 — se o evento for depois dessa data, renovar antes.</div>
     <h2>Ordenado por vencimento</h2>
     <div id="validadesList"></div>
   </div>
@@ -264,6 +264,17 @@
     </div>
 
     <div class="entity">
+      <div class="entity-name">A.M.S. Desentupidora e Dedetizadora LTDA</div>
+      <div class="entity-cnpj">Empresa de controle de pragas (CIP) · "Adedetizadora"</div>
+      <div class="grid">
+        <div class="field"><div class="txt"><div class="lbl">CNPJ</div><div class="val">19.356.511/0001-79</div></div><button class="copy" data-copy="19.356.511/0001-79">Copiar</button></div>
+        <div class="field"><div class="txt"><div class="lbl">Licença Sanitária (CEVS)</div><div class="val" style="font-size:12px">355645315-812-000010-1-5 · val. 17/04/2027</div></div><button class="copy" data-copy="355645315-812-000010-1-5">Copiar</button></div>
+        <div class="field"><div class="txt"><div class="lbl">Telefones</div><div class="val" style="font-size:13px">11 5990-0440 · 11 97196-0715</div></div><button class="copy" data-copy="11 5990-0440">Copiar</button></div>
+        <div class="field"><div class="txt"><div class="lbl">Resp. Técnica</div><div class="val" style="font-size:13px">Michele Hatakeyama · CRQ 044103924</div></div><button class="copy" data-copy="Michele Hatakeyama CRQ 044103924">Copiar</button></div>
+      </div>
+    </div>
+
+    <div class="entity">
       <div class="entity-name">Lillidee Brigadeira &amp; Delicatessen</div>
       <div class="entity-cnpj">Estabelecimento da dedetização · confirmado OK</div>
       <div class="grid">
@@ -290,9 +301,9 @@ const DOCS = [
   {name:"CNPJ", have:true, expiry:null, note:"Comprovante de inscrição"},
   {name:"Licença Sanitária / CMVS ou isenção", have:true, expiry:"2026-11-04", note:"Coberto pelo CLI integrado"},
   {name:"Alvará de funcionamento / protocolo", have:true, expiry:"2026-11-04", note:"Certificado de Licenciamento Integrado"},
-  {name:"Laudo de desinsetização (CIP)", have:true, expiry:"2026-08-12", note:"Adedetizadora — garantia 3 meses"},
-  {name:"Alvará da empresa de CIP", have:false, expiry:null, note:"Pedir à Adedetizadora"},
-  {name:"Relatório de medidas preventivas (CIP)", have:false, expiry:null, note:"Pedir à Adedetizadora"},
+  {name:"Laudo de desinsetização (CIP)", have:true, expiry:"2026-09-25", note:"A.M.S. (Adedetizadora) — serviço 25/06 · DDT veicular"},
+  {name:"Alvará / Licença Sanitária da empresa de CIP", have:true, expiry:"2027-04-17", note:"A.M.S. — Licença Sanitária CEVS 355645315-812-000010-1-5"},
+  {name:"Relatório de medidas preventivas (CIP)", have:true, expiry:null, note:"A.M.S. — relatório técnico p/ food truck (RT Michele)"},
   {name:"Atestado de Saúde Ocupacional (ASO)", have:true, status:"warn", badge:"Verificar equipe", expiry:null, note:"Amanda, Luciene e Marcelo com ASO · Amanda vence 16/07 · ver aba Equipe"},
   {name:"Exames complementares (copro)", have:true, expiry:null, note:"Coproparasitológico + Coprocultura — inclusos nos ASOs da equipe"},
   {name:"Laudo prestação coleta de óleo", have:true, expiry:null, note:"Ambientaloli — laudo de serviço OK"},
